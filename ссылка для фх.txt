@@ -1,0 +1,11 @@
+https://stackoverflow.com/questions/27160951/javafx-open-another-fxml-in-the-another-window-with-button
+https://stackoverflow.com/questions/13567019/close-fxml-window-by-code-javafx
+Scene bilder
+из меню вызывать сцену , в которой уже будут кнопки с функционалом
+Меню
+https://stackoverflow.com/questions/36463725/changing-scenes-in-javafx-nullpointerexception/36463793#36463793
+https://code.makery.ch/ru/library/javafx-tutorial/
+https://www.tutorialspoint.com/javafx/line_chart.htm
+https://proglib.io/p/awesome-javafx/
+https://devcolibri.com/javafx-2-%D0%BA%D0%B0%D0%BA-%D0%B2%D1%8B%D0%B2%D0%B5%D1%81%D1%82%D0%B8-%D0%B4%D0%B0%D0%BD%D0%BD%D1%8B%D0%B5-%D0%B2-tableview/                  таблица без лямбда
+TableView for MySQL

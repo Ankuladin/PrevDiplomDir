@@ -1,0 +1,4 @@
+ankuladin
+
+root ankuladin   (connect to serv
+Для запуска сервера зайти в workbench- startup\shoud-start, потом через командн строку пароль

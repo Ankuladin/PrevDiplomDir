@@ -1,0 +1,79 @@
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.chart.Axis;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.control.Button;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+
+public class Controller1 {
+    @FXML
+    private LineChart lineChartFromFC;
+     Axis xAxis;
+     Axis yAxis;
+    int a = 1;
+
+    @FXML
+    private Button btn1;
+    @FXML
+    private Button btn2;
+    Parent root;
+    @FXML
+    private void click2(ActionEvent event) throws Exception {
+        MainMenuController mainMenuController = new MainMenuController();
+        try {
+
+            btn1.getScene().setRoot(mainMenuController.getContent());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+
+            btn1.setText("check");
+
+
+    }
+    @FXML
+    private void click1(ActionEvent event) throws Exception {
+        try {
+            System.out.println(a);
+
+
+
+
+        /*    Stage stage = (Stage) btn1.getScene().getWindow();
+            btn1.setText("check");
+            stage.close();*/
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+    public Parent getContent() {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FirstChoise.fxml"));
+        System.out.println(a);
+        a=14;
+        try {
+            root = (Parent) fxmlLoader.load();
+        /*      xAxis = lineChartFromFC.getXAxis();
+              yAxis = lineChartFromFC.getYAxis();
+
+            xAxis.setLabel("down");
+            yAxis.setLabel("left");
+*/
+        }
+        catch (Exception ex){
+
+        }
+        return root;
+    }
+}

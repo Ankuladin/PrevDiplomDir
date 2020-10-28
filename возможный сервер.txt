@@ -1,0 +1,7 @@
+сокет
+FileinputStraem fis = new ...(coket)
+fileotputstream... ( на кнопку apply)
+objectinputstream ois = new ...(fis)
+
+while(someobj = ois.readObject != null){
+mainApp.work...=someobj

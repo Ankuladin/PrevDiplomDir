@@ -1,0 +1,27 @@
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+
+public class Controller1test {
+    @FXML
+    private Button btn;
+    Controller2 controller2 = new Controller2();
+    @FXML
+    private void click(ActionEvent event) throws Exception {
+        try {
+
+            btn.getScene().setRoot(controller2.getContent());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+}
+
+

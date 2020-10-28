@@ -1,0 +1,5 @@
+обработать ошибку в графике, 
+реджексы текстовых полей
+ошибку выбора неверного файла
+ошибку в классе(AddDayfromField)
+try\catch в метод Apply (AddDayLayoutController)

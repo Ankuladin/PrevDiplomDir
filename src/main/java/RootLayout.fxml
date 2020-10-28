@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<BorderPane prefHeight="400.0" prefWidth="621.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="RootLayoutController">
+   <top>
+   </top>
+   <top>
+      <AnchorPane prefHeight="100.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <MenuBar layoutX="8.0" layoutY="8.0" AnchorPane.leftAnchor="8.0" AnchorPane.topAnchor="8.0">
+              <menus>
+                <Menu mnemonicParsing="false" text="Файл">
+                  <items>
+                    <MenuItem fx:id="saveData" mnemonicParsing="false" onAction="#clickMenuSaveData" text="Зберегти у файл" />
+                    <MenuItem fx:id="openData" mnemonicParsing="false" onAction="#clickMenuOpenData" text="Відкрити з файлу" />
+                    <MenuItem fx:id="saveDB" mnemonicParsing="false" onAction="#clickMenuSaveDB" text="Зберігти до бази даних" />
+                    <MenuItem fx:id="openDB" mnemonicParsing="false" onAction="#clickMenuOpenDB" text="Відкрити з бази даних" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Налаштування">
+                  <items>
+                      <Menu mnemonicParsing="false" text="Resolution">
+                          <MenuItem mnemonicParsing="false" onAction="#setStageSizeMini" text="1024x768" />
+                          <MenuItem mnemonicParsing="false" onAction="#setStageSizeMeddium" text="1600x900" />
+                          <MenuItem mnemonicParsing="false" onAction="#setStageSizeMax" text="1920x1080" />
+                          <MenuItem mnemonicParsing="false" onAction="#startAuto" text="Запуск автоматизації" />
+                      </Menu>
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Допомога">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="About" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+            <GridPane layoutX="8.0" layoutY="33.0" prefHeight="30.0" prefWidth="609.0" AnchorPane.leftAnchor="8.0" AnchorPane.topAnchor="33.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Button fx:id="btn1" mnemonicParsing="false" onAction="#clickTable" prefHeight="27.0" prefWidth="97.0" text="Таблиця" />
+                  <Button fx:id="btn3" mnemonicParsing="false" onAction="#clickChange" prefHeight="27.0" prefWidth="97.0" text="Змінити день" GridPane.columnIndex="1" />
+                  <Button fx:id="btn4" mnemonicParsing="false" onAction="#clickAddDay" prefHeight="27.0" prefWidth="97.0" text="Додати день" GridPane.columnIndex="2" />
+                  <Button fx:id="btn6" mnemonicParsing="false" onAction="#clickPrediction" prefHeight="27.0" prefWidth="97.0" text="Прогноз" GridPane.columnIndex="4" />
+                  <Button fx:id="btn7" mnemonicParsing="false" onAction="#clickQuery" prefHeight="27.0" prefWidth="97.0" text="Запит " GridPane.columnIndex="3" />
+                  <Button mnemonicParsing="false" onAction="#clickCheckLines" prefHeight="27.0" prefWidth="97.0" text="Потоки" GridPane.columnIndex="5" />
+               </children>
+            </GridPane>
+            <Label fx:id="L1" layoutX="419.0" layoutY="12.0" text="Автоматична перевірка вимкнена" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="12.0" />
+         </children>
+      </AnchorPane>
+   </top>
+   <bottom>
+      <TextArea fx:id="TA1" prefHeight="59.0" prefWidth="621.0" BorderPane.alignment="CENTER" />
+   </bottom>
+</BorderPane>

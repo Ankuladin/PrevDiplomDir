@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CurrentLinesController">
+   <children>
+      <Circle fx:id="C1" fill="#1fff49" layoutX="168.0" layoutY="108.0" radius="27.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fx:id="C2" fill="#1fff49" layoutX="417.0" layoutY="108.0" radius="27.0" stroke="BLACK" strokeType="INSIDE" />
+      <Label layoutX="149.0" layoutY="6.0" text="ТЕЦ-1" />
+      <Label layoutX="405.0" layoutY="6.0" text="НДЕ" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="54.0" layoutX="167.0" layoutY="23.0" stroke="BLACK" strokeType="INSIDE" width="2.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="54.0" layoutX="416.0" layoutY="23.0" stroke="BLACK" strokeType="INSIDE" width="2.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="54.0" layoutX="168.0" layoutY="136.0" stroke="BLACK" strokeType="INSIDE" width="2.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="54.0" layoutX="417.0" layoutY="136.0" stroke="BLACK" strokeType="INSIDE" width="2.0" />
+      <Line endX="149.0" layoutX="268.0" layoutY="190.0" startX="-100.0" />
+      <Line endX="149.0" layoutX="269.0" layoutY="215.0" startX="-100.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="54.0" layoutX="169.0" layoutY="216.0" stroke="BLACK" strokeType="INSIDE" width="2.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="54.0" layoutX="292.0" layoutY="216.0" stroke="BLACK" strokeType="INSIDE" width="2.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="54.0" layoutX="415.0" layoutY="216.0" stroke="BLACK" strokeType="INSIDE" width="2.0" />
+      <Circle fx:id="C3" fill="#1fff49" layoutX="171.0" layoutY="297.0" radius="27.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fx:id="C4" fill="#1fff49" layoutX="294.0" layoutY="297.0" radius="27.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fx:id="C5" fill="#1fff49" layoutX="418.0" layoutY="297.0" radius="27.0" stroke="BLACK" strokeType="INSIDE" />
+      <Label fx:id="L1" layoutX="184.0" layoutY="60.0" text="0" />
+      <Label fx:id="L2" layoutX="431.0" layoutY="60.0" text="0" />
+      <Label fx:id="L3" layoutX="181.0" layoutY="243.0" text="0" />
+      <Label fx:id="L4" layoutX="307.0" layoutY="243.0" text="0" />
+      <Label fx:id="L5" layoutX="430.0" layoutY="243.0" text="0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="54.0" layoutX="170.0" layoutY="324.0" stroke="BLACK" strokeType="INSIDE" width="2.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="54.0" layoutX="293.0" layoutY="324.0" stroke="BLACK" strokeType="INSIDE" width="2.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="54.0" layoutX="418.0" layoutY="324.0" stroke="BLACK" strokeType="INSIDE" width="2.0" />
+      <Label layoutX="158.0" layoutY="378.0" text="Цех 1" />
+      <Label layoutX="280.0" layoutY="378.0" text="Цех 2" />
+      <Label layoutX="406.0" layoutY="378.0" text="Цех 3" />
+      <Label fx:id="LSummEn" layoutX="490.0" layoutY="42.0" text="0" />
+      <Label fx:id="LSummNeed" layoutX="486.0" layoutY="216.0" text="0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="1.0" layoutX="14.0" layoutY="203.0" stroke="BLACK" strokeType="INSIDE" width="574.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="13.0" layoutX="165.0" layoutY="196.0" stroke="BLACK" strokeType="INSIDE" width="257.0" />
+   </children>
+</AnchorPane>
