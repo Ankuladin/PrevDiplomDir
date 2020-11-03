@@ -1,27 +1,22 @@
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-// класс поток для
 
-
-// Main запускает данный поток , в котором создаются новые потоки при подключении к сокету
-//run -> go
-//в go обрабатывается присоединение сокета+ создается лист clientOutputStreams для обратной связи
-//Также запускается новый поток в который передается сокет
-//go->ClientHandler(Socket clientSocket) создает объекты для чтения
-//run (из ClientHandler) обрабатывает прочитанный объект
-public class ThreadRun implements Runnable {
+public class ThreadRun1 implements Runnable {
 
     private Main mainApp;
     public void setMainApp(Main mainApp) {
         this.mainApp = mainApp;
     }
     public void run(){
-        new ThreadRun().go();
+        new ThreadRun1().go();
     }
     public void go(){
         Main.clientOutputStreams = new ArrayList();
@@ -29,36 +24,27 @@ public class ThreadRun implements Runnable {
             ServerSocket serverSock = new ServerSocket(5000);
             while (true) {
                 Socket clientSocket = serverSock.accept();
+                // Ввести ожидание на ввод логина и пароля потом их сравнить, если не сходятся
+                //то отправить сообщение что не подходит и закрыть поток, если сходятся, то добавить в массив
+                //придумать, как добавить тег(по логину) для дальнейших сообщений
                 ObjectOutputStream writer = new ObjectOutputStream(clientSocket.getOutputStream());
-                Main.clientOutputStreams.add(writer);
 
 
-                System.out.println("GERE");
-                /*
+
+
                 try {
-                    System.out.println("GERE1");
-                    boolean tag1 = true;
-                    Object ob1;
 
-                    while((ob1 = new ObjectInputStream(clientSocket.getInputStream()).readObject())!= null) {
-                        String loggin = (String) ob1;
-                        System.out.println(loggin);
-                        System.out.println("GERE2.0");
-                        ob1 = null;
-                    }
-                    System.out.println("GERE2");
-
-
+                    String loggin = (String) new ObjectInputStream(clientSocket.getInputStream()).readObject();
                 } catch (Exception ex){
 
                 }
-                */
-                System.out.println("GERE3");
 
 
 
 
-                Thread t = new Thread(new ThreadRun.ClientHandler(clientSocket));
+
+                Main.clientOutputStreams.add(writer);
+                Thread t = new Thread(new ThreadRun1.ClientHandler(clientSocket));
                 t.start();
                 Platform.runLater(new Runnable() {
                     @Override
@@ -89,11 +75,9 @@ public class ThreadRun implements Runnable {
         public void run(){
             try{
                 Object ob1;
-                int id = -1;
                 while((ob1 = readerOb.readObject())!= null) {
 
                     if (Main.permission != false) {
-
                         if (ob1 instanceof WorkDay) {
                             WorkDay workDayFromField = new WorkDay();
                             workDayFromField = (WorkDay) ob1;
@@ -115,60 +99,9 @@ public class ThreadRun implements Runnable {
                             }
                         }
                         else if (ob1 instanceof String) {
-                            String k = (String) ob1;
-                            System.out.println(k);
-                            int connMass = PasswordMass.massConn.length;
-                            if (id == -1){
-                                System.out.println("-1");
-                                for (int i = 0; i<connMass; i++ ){
-                                    if (k.equals(PasswordMass.massLog[i]+PasswordMass.massPass[i])){
-                                        if(PasswordMass.massConn[i]==true){
-                                            System.out.println("already exist");
-                                        }else
-                                        if(PasswordMass.massConn[i] == false){
-                                            System.out.println("get" + i);
-                                            id = i;
-                                            PasswordMass.massConn[i] = true;
-                                            mainApp.sockMass[i] = sock;
-                                        }
-
-                                    }
-                                }
-                                if (id == -1){
-                                    try {
-                                        sock.close();
-
-                                    } catch (Exception ex) {
-
-                                    }
-                                }
-                            } else
-
-                            if (k.length() > 3) {
-                                Main.showMessage("Цех " + id +": " + k);
-                                String comm = k.substring(0, 4);
-                                System.out.println(comm);
-
-                                if (comm.equals("quit")) {
-                                    try {
-                                        System.out.println(mainApp.sockMass[id]+ "before");
-                                        PasswordMass.massConn[id]= false;
-                                        mainApp.sockMass[id]=null;
-                                            System.out.println(mainApp.sockMass[id]+ "after");
-
-
-                                        sock.close();
-                                    } catch (Exception ex) {
-
-                                    }
-                                }
-
-
-                            }else
-                            if (k.length() < 4) {
-                                Main.showMessage("Цех " + id +": " + k);
-                            }
-
+                            String k;
+                            k = (String) ob1;
+                            Main.showMessage(k);
                         }
                     }
                 }

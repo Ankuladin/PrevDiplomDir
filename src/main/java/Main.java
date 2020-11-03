@@ -9,6 +9,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import java.io.*;
+import java.net.Socket;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ public class Main extends Application {
     Connection connection;
     static String currentMessage = "";
     static RootLayoutController rootController;
+    public static Socket[] sockMass = new Socket[4];
     public Main() {
     }
     public Stage primaryStage;
