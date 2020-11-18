@@ -4,6 +4,9 @@ import javafx.scene.control.Alert;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 // класс поток для
 
@@ -29,10 +32,6 @@ public class ThreadRun implements Runnable {
             ServerSocket serverSock = new ServerSocket(5000);
             while (true) {
                 Socket clientSocket = serverSock.accept();
-                ObjectOutputStream writer = new ObjectOutputStream(clientSocket.getOutputStream());
-                Main.clientOutputStreams.add(writer);
-
-
                 System.out.println("GERE");
                 /*
                 try {
@@ -74,14 +73,17 @@ public class ThreadRun implements Runnable {
     class ClientHandler implements  Runnable{
         BufferedReader reader;
         ObjectInputStream readerOb;
+        ObjectOutputStream writer;
         Socket sock;
         public ClientHandler(Socket clientSocket){
             try{
-
                 sock = clientSocket;
+                writer = new ObjectOutputStream(sock.getOutputStream());
+                readerOb = new ObjectInputStream(sock.getInputStream());
+                Main.clientOutputStreams.add(writer);
+
                 InputStreamReader isReader = new InputStreamReader(sock.getInputStream());
                 reader = new BufferedReader(isReader);
-                readerOb = new ObjectInputStream(sock.getInputStream());
             }catch (Exception ex){
                 ex.printStackTrace();
             }
@@ -126,12 +128,12 @@ public class ThreadRun implements Runnable {
                                             System.out.println("already exist");
                                         }else
                                         if(PasswordMass.massConn[i] == false){
+                                            Main.newOutputStreams[i]=writer;
+                                            Main.newInputStreams[i]= readerOb;
                                             System.out.println("get" + i);
                                             id = i;
                                             PasswordMass.massConn[i] = true;
-                                            mainApp.sockMass[i] = sock;
                                         }
-
                                     }
                                 }
                                 if (id == -1){
@@ -139,7 +141,6 @@ public class ThreadRun implements Runnable {
                                         sock.close();
 
                                     } catch (Exception ex) {
-
                                     }
                                 }
                             } else
@@ -151,27 +152,110 @@ public class ThreadRun implements Runnable {
 
                                 if (comm.equals("quit")) {
                                     try {
-                                        System.out.println(mainApp.sockMass[id]+ "before");
+                                        System.out.println("before");
                                         PasswordMass.massConn[id]= false;
-                                        mainApp.sockMass[id]=null;
-                                            System.out.println(mainApp.sockMass[id]+ "after");
-
-
+                                            System.out.println( "after");
                                         sock.close();
                                     } catch (Exception ex) {
 
                                     }
                                 }
-
-
                             }else
                             if (k.length() < 4) {
                                 Main.showMessage("Цех " + id +": " + k);
                             }
 
+                        }else if (ob1 instanceof Double){
+                            DataOBJ currentOBJ = Main.DataMass.get(Main.DataMass.size()-1);
+                            double k = (double) ob1;
+                            System.out.print(k);
+                            switch (id) {
+                                case 1: currentOBJ.setField1(k);
+                                    break;
+                                case 2: currentOBJ.setField2(k);
+                                    break;
+                                case 3: currentOBJ.setField3(k);
+                                    break;
+                                case 4: currentOBJ.setField4(k);
+                                    break;
+                                case 5: currentOBJ.setField5(k);
+                                    break;
+                                case 6: currentOBJ.setField6(k);
+                                    break;
+
+                                case 7: currentOBJ.setPower(k);
+                                    k=0;
+                                    LocalDateTime now = LocalDateTime.now();
+                                    LocalDateTime lct = now.minusMonths(3);
+                                    LocalDate ld = LocalDate.of(lct.getYear(), lct.getMonth(), lct.getDayOfMonth());
+                                    LocalTime lt = LocalTime.of(8,00,00);
+                                    LocalDateTime start= LocalDateTime.of(ld, lt);
+                                    if(lt.getHour()>19 && lt.getHour()<8 ) {
+                                        if (k > 0) {
+                                            if (Main.DataMass.get(Main.DataMass.size() - 2).getBattary() < 1120 - 5) {
+                                                currentOBJ.setBattary(Main.DataMass.get(Main.DataMass.size() - 2).getBattary() + 5);
+                                            }
+                                        } else if (k == 0) {
+                                            double summ = currentOBJ.getField1() + currentOBJ.getField2() + currentOBJ.getField3() + currentOBJ.getField4() + currentOBJ.getField5() + currentOBJ.getField6();
+                                            if (summ <= Main.DataMass.get(Main.DataMass.size() - 2).getBattary()) {
+                                                currentOBJ.setBattary(Main.DataMass.get(Main.DataMass.size() - 2).getBattary() - summ);
+                                            }else {
+                                                currentOBJ.setBattary(Main.DataMass.get(Main.DataMass.size() - 2).getBattary());
+                                                Platform.runLater(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        showAlertRED();
+                                                    }
+                                                });
+                                            }
+                                        }
+                                    } else if(lt.getHour()<=19 && lt.getHour()>= 8 ) {
+                                        if (k > 0) {
+                                            if (Main.DataMass.get(Main.DataMass.size() - 2).getBattary() < 400 - 5) {
+                                                currentOBJ.setBattary(Main.DataMass.get(Main.DataMass.size() - 2).getBattary() +5 );
+                                            } else if (Main.DataMass.get(Main.DataMass.size() - 2).getBattary() > 400 + 5) {
+                                                currentOBJ.setBattary(Main.DataMass.get(Main.DataMass.size() - 2).getBattary() -5 );
+                                            }
+                                        }
+                                        else if (k == 0) {
+                                            System.out.println("221 stroka");
+                                            double summ = currentOBJ.getField1() + currentOBJ.getField2() + currentOBJ.getField3() + currentOBJ.getField4() + currentOBJ.getField5() + currentOBJ.getField6();
+                                            System.out.println(summ + "223 stroka");
+                                            if (summ <= Main.DataMass.get(Main.DataMass.size() - 2).getBattary()) {
+                                                System.out.println("225 stroka");
+                                                currentOBJ.setBattary(Main.DataMass.get(Main.DataMass.size() - 2).getBattary() - summ);
+                                            }else if (summ > Main.DataMass.get(Main.DataMass.size() - 2).getBattary())  {
+                                                System.out.println("228 stroka");
+                                                currentOBJ.setBattary(Main.DataMass.get(Main.DataMass.size() - 2).getBattary());
+                                                Platform.runLater(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        showAlertRED();
+                                                    }
+                                                });
+                                            }
+                                        }
+                                    }
+
+
+
+
+
+
+
+
+                                    break;
+
+                                default:
+                                    break;
+                            }
+
+                        }
+
+                            //Main.DataMass[id]
                         }
                     }
-                }
+
             }
             catch (Exception ex){
                 ex.printStackTrace();
@@ -183,6 +267,14 @@ public class ThreadRun implements Runnable {
         alert.setTitle("Message to director");
         alert.setHeaderText("Message:");
         alert.setContentText("1 PC was connected");
+
+        alert.showAndWait();
+    }
+    private void showAlertRED () {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Message to director");
+        alert.setHeaderText("Message:");
+        alert.setContentText("ТЕЦ відключена, заряду батареї не вистачає");
 
         alert.showAndWait();
     }

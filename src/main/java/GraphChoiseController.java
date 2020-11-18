@@ -24,6 +24,7 @@ public class GraphChoiseController {
     public void setMainApp(Main mainApp) {
         this.mainApp = mainApp;
     }
+    //прогноз затрат на следующий день
     @FXML
     private void clickTomorrow(ActionEvent event)  {
         try{
@@ -32,9 +33,9 @@ public class GraphChoiseController {
             Graph GC = loader.getController();
             GC.setMainApp(mainApp);
             GC.setOperNumb(1);
-            double [] mass = new double[12];
-            mass= mainApp.meddiumSlipeMethodByNextDay();
-            GC.setMass(mass);
+            ArrayList<DataOBJ> mass;
+            mass= mainApp.Prediction();
+            GC.setData(mass);
             GC.initializeGraph();
             mainApp.rootLayout.setCenter(GL);
             closeStage();
@@ -94,32 +95,7 @@ public class GraphChoiseController {
 
         }
     }
-    @FXML
-    private void clickWeek(ActionEvent event) {
-        try{
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("BarChartGraphLayout.fxml"));
-            AnchorPane GL = (AnchorPane) loader.load();
-            BarChartGraphController BCGC = loader.getController();
-            ArrayList<double []> massOfMass = new ArrayList<double []>();
-            double [] mass = new double[12];
-            LocalDate ldCurr = Main.workDay.get(Main.workDay.size() - 1).getCurrDate();
-            LocalDate ldNext = ldCurr;
-            for (int i = 0; i<7 ; i++){
-                ldNext = ldNext.plusDays(1);
-                mass = mainApp.meddiumSlipeMethodByRandomDay(Integer.toString(ldNext.getYear()), Integer.toString(ldNext.getMonthValue()), Integer.toString(ldNext.getDayOfMonth()));
-                massOfMass.add(mass);
-            }
-            BCGC.setMainApp(mainApp);
-            BCGC.setStartDate(ldCurr);
-            BCGC.setMass(massOfMass);
-            BCGC.initializeSBC();
-            mainApp.rootLayout.setCenter(GL);
-            closeStage();
-        } catch (Exception e) {
-            showError(e);
-            e.printStackTrace();
-        }
-    }
+
     public void closeStage(){
         stage = (Stage) TfforRand3.getScene().getWindow();
         stage.close();

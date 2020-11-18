@@ -67,7 +67,7 @@ public class PassForBossController {
                         System.out.println(e.getMessage());
                     }
             } else if (currLogin.equals(pass.mainLogin) && currPass.equals(pass.mainPass) && getOperNumb() == 2) {
-                if (mainApp.workDay.size() != 0) {
+                if (mainApp.DataMass.size() != 0) {
                     try {
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("GraphChoiseLayout.fxml"));
                         AnchorPane GCLC = (AnchorPane) loader.load();
@@ -122,7 +122,7 @@ public class PassForBossController {
                 MessageForFieldController MessController = loader.getController();
                 Scene GDBDScene = new Scene(CLC, 500, 200);
                 Stage newWindow = new Stage();
-                newWindow.setHeight(175);
+                newWindow.setHeight(500);
                 newWindow.setWidth(850);
                 newWindow.setTitle("Change Day");
                 newWindow.setScene(GDBDScene);

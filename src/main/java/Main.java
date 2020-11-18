@@ -12,17 +12,22 @@ import java.io.*;
 import java.net.Socket;
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class Main extends Application {
     static ArrayList<WorkDay> workDay = new ArrayList<WorkDay>();
+    static ArrayList<DataOBJ> DataMass = new ArrayList<DataOBJ>();
     static ArrayList clientOutputStreams;
     static boolean permission = true;
     FileChooser fileChooser;
     Connection connection;
     static String currentMessage = "";
     static RootLayoutController rootController;
-    public static Socket[] sockMass = new Socket[4];
+    //public static Socket[] sockMass = new Socket[4];
+    public static ObjectOutputStream[] newOutputStreams = new ObjectOutputStream[8];
+    public static ObjectInputStream[] newInputStreams = new ObjectInputStream[8];
     public Main() {
     }
     public Stage primaryStage;
@@ -79,34 +84,22 @@ public class Main extends Application {
         try {
             Statement statement = connection.createStatement();
             statement.executeUpdate("DROP TABLE IF EXISTS " + tableName);
-            String sqlCommand = "CREATE TABLE " + tableName + " (Id INT PRIMARY KEY AUTO_INCREMENT, Date DATETIME, FirstPart1 DOUBLE, SecondPart1 DOUBLE, ThirdPart1 DOUBLE, FourthPart1 DOUBLE, FirstPart2 DOUBLE, SecondPart2 DOUBLE, ThirdPart2 DOUBLE, FourthPart2 DOUBLE, FirstPart3 DOUBLE, SecondPart3 DOUBLE, ThirdPart3 DOUBLE, FourthPart3 DOUBLE, FirstEnSourse DOUBLE, SecondEnSourse DOUBLE, ThirdEnSourse DOUBLE, FourthEnSourse DOUBLE, CurrBatteryFirst DOUBLE, CurrBatterySecond DOUBLE, CurrBatteryThird DOUBLE, CurrBatteryFourth DOUBLE)";
+            String sqlCommand = "CREATE TABLE " + tableName + " (Id INT PRIMARY KEY AUTO_INCREMENT, Date DATETIME, Field_1 DOUBLE, Field_2 DOUBLE, Field_3 DOUBLE, Field_4 DOUBLE, Field_5 DOUBLE, Field_6 DOUBLE, POWER DOUBLE, BATTERY DOUBLE)";
             statement.executeUpdate(sqlCommand);
-            if (workDay.size() != 0) {
-                for (int i = 0; i < workDay.size(); i++) {
+            if (DataMass.size() != 0) {
+                for (int i = 0; i < DataMass.size(); i++) {
                     //statement.executeUpdate("INSERT " + tableName + "(Date, FirstPart , SecondPart , ThirdPart, FoursPart) VALUES " +"(" + workDay.get(i).getDate() + " , " + workDay.get(i).getFirstPart() + " , " + workDay.get(i).getSecondPart() +" , " + workDay.get(i).getThirdPart() + " , " + workDay.get(i).getFourthPart() + " ) ");
-                    String sql = "INSERT INTO products (Date, FirstPart1 , SecondPart1 , ThirdPart1 , FourthPart1 , FirstPart2 , SecondPart2 , ThirdPart2 , FourthPart2 , FirstPart3 , SecondPart3 , ThirdPart3 , FourthPart3 , FirstEnSourse , SecondEnSourse , ThirdEnSourse , FourthEnSourse , CurrBatteryFirst, CurrBatterySecond, CurrBatteryThird, CurrBatteryFourth ) Values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
+                    String sql = "INSERT INTO products (Date, Field_1 , Field_2 , Field_3 , Field_4 , Field_5 , Field_6 , POWER , BATTERY) Values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
                     PreparedStatement preparedStatement = connection.prepareStatement(sql);
-                    preparedStatement.setString(1, workDay.get(i).getCurrDate().toString());
-                    preparedStatement.setDouble(2, workDay.get(i).getFirstPart1());
-                    preparedStatement.setDouble(3, workDay.get(i).getSecondPart1());
-                    preparedStatement.setDouble(4, workDay.get(i).getThirdPart1());
-                    preparedStatement.setDouble(5, workDay.get(i).getFourthPart1());
-                    preparedStatement.setDouble(6, workDay.get(i).getFirstPart2());
-                    preparedStatement.setDouble(7, workDay.get(i).getSecondPart2());
-                    preparedStatement.setDouble(8, workDay.get(i).getThirdPart2());
-                    preparedStatement.setDouble(9, workDay.get(i).getFourthPart2());
-                    preparedStatement.setDouble(10, workDay.get(i).getFirstPart3());
-                    preparedStatement.setDouble(11, workDay.get(i).getSecondPart3());
-                    preparedStatement.setDouble(12, workDay.get(i).getThirdPart3());
-                    preparedStatement.setDouble(13, workDay.get(i).getFourthPart3());
-                    preparedStatement.setDouble(14, workDay.get(i).getFirstEnSourse());
-                    preparedStatement.setDouble(15, workDay.get(i).getSecondEnSourse());
-                    preparedStatement.setDouble(16, workDay.get(i).getThirdEnSourse());
-                    preparedStatement.setDouble(17, workDay.get(i).getFourthEnSourse());
-                    preparedStatement.setDouble(18, workDay.get(i).getCurrBatteryFirstPart());
-                    preparedStatement.setDouble(19, workDay.get(i).getCurrBatterySecondPart());
-                    preparedStatement.setDouble(20, workDay.get(i).getCurrBatteryThirdPart());
-                    preparedStatement.setDouble(21, workDay.get(i).getCurrBatteryFourthPart());
+                    preparedStatement.setString(1, DataMass.get(i).getCurrDate().toString());
+                    preparedStatement.setDouble(2, DataMass.get(i).getField1());
+                    preparedStatement.setDouble(3, DataMass.get(i).getField2());
+                    preparedStatement.setDouble(4, DataMass.get(i).getField3());
+                    preparedStatement.setDouble(5, DataMass.get(i).getField4());
+                    preparedStatement.setDouble(6, DataMass.get(i).getField5());
+                    preparedStatement.setDouble(7, DataMass.get(i).getField6());
+                    preparedStatement.setDouble(8, DataMass.get(i).getPower());
+                    preparedStatement.setDouble(9, DataMass.get(i).getBattary());
                     preparedStatement.executeUpdate();
                 }
             } else {
@@ -122,32 +115,20 @@ public class Main extends Application {
     public void updateDataDB(String tableName, int numb) throws SQLException, IOException {
         try {
             Statement statement = connection.createStatement();
-            if (workDay.size() != 0) {
+            if (DataMass.size() != 0) {
                 int numb1 = numb+1;
                 //statement.executeUpdate("INSERT " + tableName + "(Date, FirstPart , SecondPart , ThirdPart, FoursPart) VALUES " +"(" + workDay.get(i).getDate() + " , " + workDay.get(i).getFirstPart() + " , " + workDay.get(i).getSecondPart() +" , " + workDay.get(i).getThirdPart() + " , " + workDay.get(i).getFourthPart() + " ) ");
-                String sql = "UPDATE " + tableName + " SET Date = ?, FirstPart1 = ?, SecondPart1 = ? , ThirdPart1 = ?, FourthPart1 = ?, FirstPart2 = ?, SecondPart2 = ?, ThirdPart2 = ?, FourthPart2 = ?, FirstPart3 = ?, SecondPart3 = ?, ThirdPart3 = ?, FourthPart3 = ?, FirstEnSourse = ?, SecondEnSourse = ?, ThirdEnSourse = ?, FourthEnSourse = ?, CurrBatteryFirst = ?, CurrBatterySecond = ?, CurrBatteryThird = ? , CurrBatteryFourth = ?  " + " WHERE ID = " + numb1;
+                String sql = "UPDATE " + tableName + " SET Date = ?, Field_1 = ?, Field_2 = ? , Field_3 = ?, Field_4 = ?, Field_5 = ?, Field_6 = ?, POWER = ?, BATTERY = ? " + " WHERE ID = " + numb1;
                 PreparedStatement preparedStatement = connection.prepareStatement(sql);
-                preparedStatement.setString(1, workDay.get(numb).getCurrDate().toString());
-                preparedStatement.setDouble(2, workDay.get(numb).getFirstPart1());
-                preparedStatement.setDouble(3, workDay.get(numb).getSecondPart1());
-                preparedStatement.setDouble(4, workDay.get(numb).getThirdPart1());
-                preparedStatement.setDouble(5, workDay.get(numb).getFourthPart1());
-                preparedStatement.setDouble(6, workDay.get(numb).getFirstPart2());
-                preparedStatement.setDouble(7, workDay.get(numb).getSecondPart2());
-                preparedStatement.setDouble(8, workDay.get(numb).getThirdPart2());
-                preparedStatement.setDouble(9, workDay.get(numb).getFourthPart2());
-                preparedStatement.setDouble(10, workDay.get(numb).getFirstPart3());
-                preparedStatement.setDouble(11, workDay.get(numb).getSecondPart3());
-                preparedStatement.setDouble(12, workDay.get(numb).getThirdPart3());
-                preparedStatement.setDouble(13, workDay.get(numb).getFourthPart3());
-                preparedStatement.setDouble(14, workDay.get(numb).getFirstEnSourse());
-                preparedStatement.setDouble(15, workDay.get(numb).getSecondEnSourse());
-                preparedStatement.setDouble(16, workDay.get(numb).getThirdEnSourse());
-                preparedStatement.setDouble(17, workDay.get(numb).getFourthEnSourse());
-                preparedStatement.setDouble(18, workDay.get(numb).getCurrBatteryFirstPart());
-                preparedStatement.setDouble(19, workDay.get(numb).getCurrBatterySecondPart());
-                preparedStatement.setDouble(20, workDay.get(numb).getCurrBatteryThirdPart());
-                preparedStatement.setDouble(21, workDay.get(numb).getCurrBatteryFourthPart());
+                preparedStatement.setString(1, DataMass.get(numb).getCurrDate().toString());
+                preparedStatement.setDouble(2, DataMass.get(numb).getField1());
+                preparedStatement.setDouble(3, DataMass.get(numb).getField2());
+                preparedStatement.setDouble(4, DataMass.get(numb).getField3());
+                preparedStatement.setDouble(5, DataMass.get(numb).getField4());
+                preparedStatement.setDouble(6, DataMass.get(numb).getField5());
+                preparedStatement.setDouble(7, DataMass.get(numb).getField6());
+                preparedStatement.setDouble(8, DataMass.get(numb).getPower());
+                preparedStatement.setDouble(9, DataMass.get(numb).getBattary());
                 preparedStatement.executeUpdate();
             }
         } catch (Exception e) {
@@ -158,30 +139,18 @@ public class Main extends Application {
     public void insertDataDB(String tableName) throws SQLException, IOException {
         try {
             Statement statement = connection.createStatement();
-            if (workDay.size() != 0) {
-                    String sql = "INSERT INTO " + tableName + " (Date, FirstPart1 , SecondPart1 , ThirdPart1 , FourthPart1 , FirstPart2 , SecondPart2 , ThirdPart2 , FourthPart2 , FirstPart3 , SecondPart3 , ThirdPart3 , FourthPart3 , FirstEnSourse , SecondEnSourse , ThirdEnSourse , FourthEnSourse , CurrBatteryFirst, CurrBatterySecond, CurrBatteryThird, CurrBatteryFourth ) Values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
+            if (DataMass.size() != 0) {
+                    String sql = "INSERT INTO " + tableName + " (Date, Field_1 , Field_2 , Field_3 , Field_4 , Field_5 , Field_6 , POWER , BATTERY  ) Values (?, ?, ?, ?, ?, ?, ?, ?, ? )";
                     PreparedStatement preparedStatement = connection.prepareStatement(sql);
-                    preparedStatement.setString(1, workDay.get(workDay.size()-1).getCurrDate().toString());
-                    preparedStatement.setDouble(2, workDay.get(workDay.size()-1).getFirstPart1());
-                    preparedStatement.setDouble(3, workDay.get(workDay.size()-1).getSecondPart1());
-                    preparedStatement.setDouble(4, workDay.get(workDay.size()-1).getThirdPart1());
-                    preparedStatement.setDouble(5, workDay.get(workDay.size()-1).getFourthPart1());
-                    preparedStatement.setDouble(6, workDay.get(workDay.size()-1).getFirstPart2());
-                    preparedStatement.setDouble(7, workDay.get(workDay.size()-1).getSecondPart2());
-                    preparedStatement.setDouble(8, workDay.get(workDay.size()-1).getThirdPart2());
-                    preparedStatement.setDouble(9, workDay.get(workDay.size()-1).getFourthPart2());
-                    preparedStatement.setDouble(10, workDay.get(workDay.size()-1).getFirstPart3());
-                    preparedStatement.setDouble(11, workDay.get(workDay.size()-1).getSecondPart3());
-                    preparedStatement.setDouble(12, workDay.get(workDay.size()-1).getThirdPart3());
-                    preparedStatement.setDouble(13, workDay.get(workDay.size()-1).getFourthPart3());
-                    preparedStatement.setDouble(14, workDay.get(workDay.size()-1).getFirstEnSourse());
-                    preparedStatement.setDouble(15, workDay.get(workDay.size()-1).getSecondEnSourse());
-                    preparedStatement.setDouble(16, workDay.get(workDay.size()-1).getThirdEnSourse());
-                    preparedStatement.setDouble(17, workDay.get(workDay.size()-1).getFourthEnSourse());
-                    preparedStatement.setDouble(18, workDay.get(workDay.size()-1).getCurrBatteryFirstPart());
-                    preparedStatement.setDouble(19, workDay.get(workDay.size()-1).getCurrBatterySecondPart());
-                    preparedStatement.setDouble(20, workDay.get(workDay.size()-1).getCurrBatteryThirdPart());
-                    preparedStatement.setDouble(21, workDay.get(workDay.size()-1).getCurrBatteryFourthPart());
+                    preparedStatement.setString(1, DataMass.get(DataMass.size()-1).getCurrDate().toString());
+                    preparedStatement.setDouble(2, DataMass.get(DataMass.size()-1).getField1());
+                    preparedStatement.setDouble(3, DataMass.get(DataMass.size()-1).getField2());
+                    preparedStatement.setDouble(4, DataMass.get(DataMass.size()-1).getField3());
+                    preparedStatement.setDouble(5, DataMass.get(DataMass.size()-1).getField4());
+                    preparedStatement.setDouble(6, DataMass.get(DataMass.size()-1).getField5());
+                    preparedStatement.setDouble(7, DataMass.get(DataMass.size()-1).getField6());
+                    preparedStatement.setDouble(8, DataMass.get(DataMass.size()-1).getPower());
+                    preparedStatement.setDouble(9, DataMass.get(DataMass.size()-1).getBattary());
                     preparedStatement.executeUpdate();
             }
         } catch (Exception e) {
@@ -192,15 +161,15 @@ public class Main extends Application {
     public void openDataDB(String tableName) throws SQLException, IOException {
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT * FROM " + tableName);
-        workDay.clear();
+        DataMass.clear();
+        System.out.println("openDB");
         while (resultSet.next()) {
-            workDay.add(new WorkDay(resultSet.getDouble(3), resultSet.getDouble(4),
+            System.out.println("openDBinWhile");
+            DataMass.add(new DataOBJ(resultSet.getDouble(3), resultSet.getDouble(4),
                     resultSet.getDouble(5), resultSet.getDouble(6), resultSet.getDouble(7), resultSet.getDouble(8),
-                    resultSet.getDouble(9), resultSet.getDouble(10), resultSet.getDouble(11), resultSet.getDouble(12),
-                    resultSet.getDouble(13), resultSet.getDouble(14), resultSet.getDouble(19), resultSet.getDouble(20),
-                    resultSet.getDouble(21), resultSet.getDouble(22), resultSet.getDouble(15), resultSet.getDouble(16),
-                    resultSet.getDouble(17), resultSet.getDouble(18), resultSet.getString(2).substring(0, 10)));
+                    resultSet.getDouble(9), resultSet.getDouble(10),  resultSet.getString(2)));
         }
+        System.out.println(DataMass.size());
     }
     //Метод для графічного відображення вибору файлу
     public void openMenuData() {
@@ -211,7 +180,7 @@ public class Main extends Application {
             if (file != null) {
                 FileInputStream fis = new FileInputStream(file);
                 ObjectInputStream ois = new ObjectInputStream(fis);
-                workDay = (ArrayList<WorkDay>) ois.readObject();
+                DataMass = (ArrayList<DataOBJ>) ois.readObject();
                 ois.close();
             }
         } catch (Exception e) {
@@ -227,7 +196,7 @@ public class Main extends Application {
             File file = fileChooser.showOpenDialog(primaryStage);
             FileOutputStream fos = new FileOutputStream(file);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(workDay);
+            oos.writeObject(DataMass);
             oos.close();
         } catch (Exception e) {
             showError(e);
@@ -287,7 +256,7 @@ public class Main extends Application {
         WorkDay daythirdDayAgo;
         LocalDate ld = workDay.get(workDay.size() - 1).getCurrDate();
         ld = ld.plusDays(1);
-        Graph.localDate=ld;
+      //  Graph.localDate=ld;
         double[] k = new double[12];
         if (!(ld.toString().substring(5, 7).equals("02") && ld.toString().substring(8, 10).equals("29"))) {
             for (int r = 0; r < workDay.size(); r++) {
@@ -408,7 +377,7 @@ public class Main extends Application {
     //Метод для прогнозу на обраний день
     public double[] meddiumSlipeMethodByRandomDay(String year, String month, String day) throws Exception {   // Добавить взятие из workDay по нужной дате!!!!!!!
         LocalDate ld = LocalDate.of(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day));
-        Graph.localDate=ld;
+      //  Graph.localDate=ld;
         int oneYearAgo = Integer.parseInt(year) - 1;
         int twoYearAgo = Integer.parseInt(year) - 2;
         int threeYearAgo = Integer.parseInt(year) - 3;
@@ -535,7 +504,7 @@ public class Main extends Application {
     //Генерація масиву для прогнозу
     public double[] GraphByCurrentDay() throws Exception {
         WorkDay needDay = workDay.get(workDay.size() - 1);
-        Graph.localDate=needDay.getCurrDate();
+       // Graph.localDate=needDay.getCurrDate();
         double[] k = new double[12];
         k[0] = needDay.getFirstPart1() + needDay.getFirstPart2() + needDay.getFirstPart3();
         k[1] = needDay.getSecondPart1() + needDay.getSecondPart2() + needDay.getSecondPart3();
@@ -610,6 +579,106 @@ public class Main extends Application {
         wDay.setCurrDate(date);
         workDay.add(wDay);
     }
+
+    public ArrayList<DataOBJ> Prediction(){
+        double[] newInfo = new double[8];
+        //prognoz na den
+        ArrayList<DataOBJ> wd = new ArrayList<DataOBJ>();
+        LocalDateTime now = LocalDateTime.now();
+        LocalDate ld1 = LocalDate.of(now.getYear(), now.getMonth(), now.getDayOfMonth()+1);
+        LocalTime lt1 = LocalTime.of(00,00,00);
+        LocalDateTime needDate= LocalDateTime.of(ld1, lt1);
+        LocalDate ld2 = LocalDate.of(now.getYear(), now.getMonth(), now.getDayOfMonth()-8);
+        LocalTime lt2 = LocalTime.of(00,00,00);
+        LocalDateTime startDate= LocalDateTime.of(ld2, lt2);
+        LocalDate ld3 = LocalDate.of(now.getYear(), now.getMonth(), now.getDayOfMonth()-1);
+        LocalTime lt3 = LocalTime.of(00,00,00);
+        LocalDateTime endDate= LocalDateTime.of(ld3, lt3);
+        System.out.println(startDate + "rofl");
+        LocalDateTime startDate1 = startDate.plusDays(1);
+        int count = 0;
+        int startIndex = 0;
+        int endIndex = 0;
+        for (int i =Main.DataMass.size()-1; i > 0 ; i--){
+            count++;
+            if(Main.DataMass.get(startIndex).getCurrDate().isEqual(startDate)){
+                startIndex=i;
+                System.out.println(startIndex);
+            }
+        }
+        for (int i = 0; i<1440 ; i++) {
+            double field1 = (Main.DataMass.get(startIndex+i).getField1() + Main.DataMass.get(startIndex +i +(1* 1440)).getField1()  + Main.DataMass.get(startIndex +i +(2* 1440)).getField1() + Main.DataMass.get(startIndex +i +(3* 1440)).getField1() + Main.DataMass.get(startIndex +i +(4* 1440)).getField1() + Main.DataMass.get(startIndex +i +(5* 1440)).getField1() + Main.DataMass.get(startIndex +i +(6* 1440)).getField1()) / 7;
+            double field2 = (Main.DataMass.get(startIndex+i).getField2() + Main.DataMass.get(startIndex +i +(1* 1440)).getField2()  + Main.DataMass.get(startIndex +i +(2* 1440)).getField2() + Main.DataMass.get(startIndex +i +(3* 1440)).getField2() + Main.DataMass.get(startIndex +i +(4* 1440)).getField2() + Main.DataMass.get(startIndex +i +(5* 1440)).getField2() + Main.DataMass.get(startIndex +i +(6* 1440)).getField2()) / 7;
+            double field3 = (Main.DataMass.get(startIndex+i).getField3() + Main.DataMass.get(startIndex +i +(1* 1440)).getField3()  + Main.DataMass.get(startIndex +i +(2* 1440)).getField3() + Main.DataMass.get(startIndex +i +(3* 1440)).getField3() + Main.DataMass.get(startIndex +i +(4* 1440)).getField3() + Main.DataMass.get(startIndex +i +(5* 1440)).getField3() + Main.DataMass.get(startIndex +i +(6* 1440)).getField3()) / 7;
+            double field4 = (Main.DataMass.get(startIndex+i).getField4() + Main.DataMass.get(startIndex +i +(1* 1440)).getField4()  + Main.DataMass.get(startIndex +i +(2* 1440)).getField4() + Main.DataMass.get(startIndex +i +(3* 1440)).getField4() + Main.DataMass.get(startIndex +i +(4* 1440)).getField4() + Main.DataMass.get(startIndex +i +(5* 1440)).getField4() + Main.DataMass.get(startIndex +i +(6* 1440)).getField4()) / 7;
+            double field5 = (Main.DataMass.get(startIndex+i).getField5() + Main.DataMass.get(startIndex +i +(1* 1440)).getField5()  + Main.DataMass.get(startIndex +i +(2* 1440)).getField5() + Main.DataMass.get(startIndex +i +(3* 1440)).getField5() + Main.DataMass.get(startIndex +i +(4* 1440)).getField5() + Main.DataMass.get(startIndex +i +(5* 1440)).getField5() + Main.DataMass.get(startIndex +i +(6* 1440)).getField5()) / 7;
+            double field6 = (Main.DataMass.get(startIndex+i).getField6() + Main.DataMass.get(startIndex +i +(1* 1440)).getField6()  + Main.DataMass.get(startIndex +i +(2* 1440)).getField6() + Main.DataMass.get(startIndex +i +(3* 1440)).getField6() + Main.DataMass.get(startIndex +i +(4* 1440)).getField6() + Main.DataMass.get(startIndex +i +(5* 1440)).getField6() + Main.DataMass.get(startIndex +i +(6* 1440)).getField6()) / 7;
+            wd.add(new DataOBJ(field1, field2, field3, field4, field5, field6, needDate));
+            startDate = startDate.plusMinutes(1);
+            needDate = needDate.plusMinutes(1);
+        }
+        System.out.println("lenght "+ wd.size());
+        System.out.println("lenght "+ wd.get(wd.size()-1).getCurrDate());
+
+
+
+
+        ArrayList<DataOBJ> wd1 = new ArrayList<DataOBJ>();
+        LocalDateTime std = wd.get(0).getCurrDate();
+        LocalDateTime etd = wd.get(wd.size()-1).getCurrDate();
+
+        while(std.isBefore(etd)){
+            DataOBJ dto = new DataOBJ();
+            dto.setCurrDate(std);
+            wd1.add(dto);
+            std = std.plusHours(1);
+        }
+
+        System.out.println(wd1.size());
+        for(int i = 0; i<24 ; i++){
+           for (int j=0; j<1440;j++){
+               if(wd.get(j).getCurrDate().getHour() == wd1.get(i).getCurrDate().getHour()){
+                   wd1.get(i).setField1(wd1.get(i).getField1()+ wd.get(j).getField1());
+                   wd1.get(i).setField2(wd1.get(i).getField2()+ wd.get(j).getField2());
+                   wd1.get(i).setField3(wd1.get(i).getField3()+ wd.get(j).getField3());
+                   wd1.get(i).setField4(wd1.get(i).getField4()+ wd.get(j).getField4());
+                   wd1.get(i).setField5(wd1.get(i).getField5()+ wd.get(j).getField5());
+                   wd1.get(i).setField6(wd1.get(i).getField6()+ wd.get(j).getField6());
+               }
+
+           }
+            wd1.get(i).setField1(wd1.get(i).getField1()/60);
+            wd1.get(i).setField2(wd1.get(i).getField2()/60);
+            wd1.get(i).setField3(wd1.get(i).getField3()/60);
+            wd1.get(i).setField4(wd1.get(i).getField4()/60);
+            wd1.get(i).setField5(wd1.get(i).getField5()/60);
+            wd1.get(i).setField6(wd1.get(i).getField6()/60);
+
+
+
+
+            // double[] doubleMass = new double[7];
+            //wd.get(wd.get(i).getCurrDate().getHour()).setField1();
+            //if (wd.get(i).getCurrDate().getHour()
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+        return wd1;
+
+
+    }
+
     //Головний метод
     public static void main(String[] args) {
         launch(args);

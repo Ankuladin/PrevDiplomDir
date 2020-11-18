@@ -1,32 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+
 <AnchorPane prefHeight="647.0" prefWidth="1736.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Table">
    <children>
-      <TableView fx:id="tableData" layoutY="1.0" prefHeight="647.0" prefWidth="1736.0" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="1.0">
+      <TableView fx:id="tableData" layoutY="1.0" prefHeight="647.0" prefWidth="763.0" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="1.0">
         <columns>
-          <TableColumn fx:id="DataColumn" prefWidth="69.0" text="Date" />
-          <TableColumn fx:id="FirstColumn1" prefWidth="75.0" text="0-6h 1 field" />
-          <TableColumn fx:id="SecondColumn1" prefWidth="89.0" text="6-12h 1 field" />
-          <TableColumn fx:id="ThirdColumn1" prefWidth="98.0" text="12-18h 1 field" />
-          <TableColumn fx:id="FourthColumn1" prefWidth="85.0" text="18-00h 1 field" />
-          <TableColumn fx:id="FirstColumn2" prefWidth="75.0" text="0-6h 2 field" />
-          <TableColumn fx:id="SecondColumn2" prefWidth="88.0" text="6-12h 2 field" />
-          <TableColumn fx:id="ThirdColumn2" prefWidth="93.0" text="12-18h 2 field" />
-          <TableColumn fx:id="FourthColumn2" prefWidth="86.0" text="18-00h 2 field" />
-          <TableColumn fx:id="FirstColumn3" prefWidth="76.0" text="0-6h 3 field" />
-          <TableColumn fx:id="SecondColumn3" prefWidth="84.0" text="6-12h 3 field" />
-          <TableColumn fx:id="ThirdColumn3" prefWidth="86.0" text="12-18h 3 field" />
-          <TableColumn fx:id="FourthColumn3" prefWidth="87.0" text="18-00h 3 field" />
-          <TableColumn fx:id="FirstEnSourseColumn" prefWidth="75.0" text="0-6h EnS" />
-          <TableColumn fx:id="SecondEnSourseColumn" prefWidth="75.0" text="6-12h EnS" />
-          <TableColumn fx:id="ThirdEnSourseColumn" prefWidth="75.0" text="12-18h EnS" />
-          <TableColumn fx:id="FourthEnSourseColumn" prefWidth="75.0" text="18-00h EnS" />
-          <TableColumn fx:id="BatteryColumnFirst" prefWidth="60.0" text="Bat 0-6" />
-          <TableColumn fx:id="BatteryColumnSecond" prefWidth="90.0" text="Bat 6-12" />
-          <TableColumn fx:id="BatteryColumnThird" prefWidth="75.0" text="Bat 12-18" />
-          <TableColumn fx:id="BatteryColumnFourth" prefWidth="75.0" text="Bat 18-00" />
+          <TableColumn fx:id="DataColumn" prefWidth="190.0" text="Date" />
+          <TableColumn fx:id="Field1" prefWidth="190.0" text="Field 1" />
+          <TableColumn fx:id="Field2" minWidth="0.0" prefWidth="190.0" text="Field 2 " />
+          <TableColumn fx:id="Field3" prefWidth="190.0" text="Field 3" />
+          <TableColumn fx:id="Field4" prefWidth="190.0" text="Field 4" />
+          <TableColumn fx:id="Field5" prefWidth="190.0" text="Field 5" />
+          <TableColumn fx:id="Field6" prefWidth="190.0" text="Field 6" />
+          <TableColumn fx:id="Power" prefWidth="190.0" text="Power" />
+          <TableColumn fx:id="Battery" minWidth="0.0" prefWidth="215.0" text="Battery" />
         </columns>
       </TableView>
    </children>

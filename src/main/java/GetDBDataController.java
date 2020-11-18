@@ -25,7 +25,7 @@ public class GetDBDataController {
     @FXML
     private TextField UserName;
     @FXML
-    private TextField Password;
+    private PasswordField Password;
     private String strDBName;
     private String strTableName;
     private String strUserName;
@@ -48,7 +48,7 @@ public class GetDBDataController {
             strUserName = UserName.getText();
             strPassword = Password.getText();
             mainApp.getConnectionDB(strDBName,strUserName, strPassword );
-            if(operNumb== 0 || operNumb==1 || operNumb==2 || operNumb==3 &&  mainApp.workDay.size()!= 0) {
+            if(operNumb== 0 || operNumb==1 || operNumb==2 || operNumb==3 &&  mainApp.DataMass.size()!= 0) {
                 new Thread(task).start();
             }
         } catch (Exception e){

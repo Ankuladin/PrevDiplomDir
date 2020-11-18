@@ -11,9 +11,14 @@ import javafx.scene.layout.VBox;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+
 public class Graph {
-    static LocalDate localDate;
+    static LocalDateTime localDateTime;
     double[] mass = new double[12];
+    ArrayList<DataOBJ> massData;
     String string1;
     String string2;
     String string3;
@@ -33,7 +38,7 @@ public class Graph {
     @FXML
     public void clickReport(ActionEvent event) {
         try {
-            mainApp.saveReport(localDate.toString(), string1, string2, string3, string4);
+            mainApp.saveReport(localDateTime.toString(), string1, string2, string3, string4);
         }
         catch ( Exception ex){
             showError(ex);
@@ -57,30 +62,42 @@ public class Graph {
     public void setMass(double[] mass) {
         this.mass = mass;
     }
+
+    public void setData( ArrayList<DataOBJ> massData){
+        this.massData = massData;
+    }
+
     public void initializeGraph() {
         try {
-            DateLabel.setText(localDate.toString());
+            //DateLabel.setText(massData.get(0).getCurrDate().toString());
             xAxiss.setLabel("Час");
-            yAxiss.setLabel("KV/H");
+            yAxiss.setLabel("KV/min");
             XYChart.Series series1 = new XYChart.Series();
             XYChart.Series series2 = new XYChart.Series();
             XYChart.Series series3 = new XYChart.Series();
-            series1.setName("Використано");
-            series2.setName("ТЕЦ-1");
-            series3.setName("НДЕ");
-            series1.getData().add(new XYChart.Data("0-6", mass[0]));
-            series1.getData().add(new XYChart.Data("6-12", mass[1]));
-            series1.getData().add(new XYChart.Data("12-18", mass[2]));
-            series1.getData().add(new XYChart.Data("18-0", mass[3]));
-            series2.getData().add(new XYChart.Data("0-6", mass[4]));
-            series2.getData().add(new XYChart.Data("6-12", mass[5]));
-            series2.getData().add(new XYChart.Data("12-18", mass[6]));
-            series2.getData().add(new XYChart.Data("18-0", mass[7]));
-            series3.getData().add(new XYChart.Data("0-6", mass[8]));
-            series3.getData().add(new XYChart.Data("6-12", mass[9]));
-            series3.getData().add(new XYChart.Data("12-18", mass[10]));
-            series3.getData().add(new XYChart.Data("18-0", mass[11]));
-            Graph.getData().addAll(series1, series2, series3);
+            XYChart.Series series4 = new XYChart.Series();
+            XYChart.Series series5 = new XYChart.Series();
+            XYChart.Series series6 = new XYChart.Series();
+            series1.setName("Вузол 1");
+            series2.setName("Вузол 2");
+            series3.setName("Вузол 3");
+            series4.setName("Вузол 4");
+            series5.setName("Вузол 5");
+            series6.setName("Вузол 6");
+            LocalDateTime start = massData.get(0).getCurrDate();
+            LocalDateTime end = massData.get(massData.size()-1).getCurrDate();
+            DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
+            for(int i = 0; i<24; i++){
+                String formattedDateTime = massData.get(i).getCurrDate().format(formatter);
+                series1.getData().add(new XYChart.Data(formattedDateTime, massData.get(i).getField1()));
+                series2.getData().add(new XYChart.Data(formattedDateTime, massData.get(i).getField2()));
+                series3.getData().add(new XYChart.Data(formattedDateTime, massData.get(i).getField3()));
+                series4.getData().add(new XYChart.Data(formattedDateTime, massData.get(i).getField4()));
+                series5.getData().add(new XYChart.Data(formattedDateTime, massData.get(i).getField5()));
+                series6.getData().add(new XYChart.Data(formattedDateTime, massData.get(i).getField6()));
+            }
+            Graph.getData().addAll(series1, series2, series3, series4, series5, series6);
+            /*
             double total1 = mass[4] + mass[8] - mass[0];
             double total2 = mass[5] + mass[9] - mass[1];
             double total3 = mass[6] + mass[10] - mass[2];
@@ -89,7 +106,7 @@ public class Graph {
             string2 = "For time 06:00-12:00: Will used:" + mass[1] + " Energy source:" + mass[5] + " Green energy:" + mass[9] + " Total:" + total2 + "\n";
             string3 = "For time 12:00-18:00: Will used:" + mass[2] + " Energy source:" + mass[6] + " Green energy:" + mass[10] + " Total:" + total3 + "\n";
             string4 = "For time 18:00-00:00: Will used:" + mass[3] + " Energy source:" + mass[7] + " Green energy:" + mass[11] + " Total:" + total4 + "\n";
-            TA1.appendText(localDate.toString() + "\n");
+            TA1.appendText(localDateTime.toString() + "\n");
             TA1.appendText(string1);
             TA1.appendText(string2);
             TA1.appendText(string3);
@@ -110,6 +127,7 @@ public class Graph {
             } else {
                 TA1.appendText("Sufficient energy" + "\n");
             }
+            */
         }catch (Exception ex){
             showError(ex);
         }

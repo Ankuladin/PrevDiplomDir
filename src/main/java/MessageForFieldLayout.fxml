@@ -1,24 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<AnchorPane prefHeight="400.0" prefWidth="839.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MessageForFieldController">
+
+<AnchorPane prefHeight="400.0" prefWidth="839.0" styleClass="background" stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MessageForFieldController">
    <children>
-      <TextField fx:id="tf1" layoutX="108.0" layoutY="14.0" prefHeight="25.0" prefWidth="696.0" />
-      <Button fx:id="btn1" layoutX="62.0" layoutY="56.0" mnemonicParsing="false" onAction="#clickSendAll" prefHeight="25.0" prefWidth="151.0" text="Відправити всім цехам" AnchorPane.leftAnchor="62.0" />
+      <TextField fx:id="tf1" layoutX="125.0" layoutY="14.0" prefHeight="45.0" prefWidth="679.0" />
+      <Button fx:id="btn1" layoutX="19.0" layoutY="70.0" mnemonicParsing="false" onAction="#clickSendAll" prefHeight="33.0" prefWidth="216.0" text="Відправити всім вузлам" AnchorPane.leftAnchor="19.0" />
       <Label layoutX="14.0" layoutY="17.0" text="Повідомлення" />
-      <Button layoutX="213.0" layoutY="56.0" mnemonicParsing="false" onAction="#clickSend1" text="Відправити у цех 1" />
-      <Button layoutX="330.0" layoutY="56.0" mnemonicParsing="false" onAction="#clickSend2" text="Відправити у цех 2" />
-      <Button layoutX="450.0" layoutY="56.0" mnemonicParsing="false" onAction="#clickSend3" text="Відправити у цех 3" />
-      <Label layoutX="14.0" layoutY="106.0" text="Дозвіл на зміну" />
-      <Button layoutX="108.0" layoutY="102.0" mnemonicParsing="false" onAction="#clickPermAll" prefHeight="25.0" prefWidth="105.0" text="Всі цехи" />
-      <Button layoutX="214.0" layoutY="102.0" mnemonicParsing="false" onAction="#clickPerm1" prefHeight="25.0" prefWidth="120.0" text="1 цех" />
-      <Button layoutX="331.0" layoutY="102.0" mnemonicParsing="false" onAction="#clickPerm2" prefHeight="25.0" prefWidth="120.0" text="2 цех" />
-      <Button layoutX="450.0" layoutY="102.0" mnemonicParsing="false" onAction="#clickPerm3" prefHeight="25.0" prefWidth="120.0" text="3 цех" />
-      <Button layoutX="570.0" layoutY="56.0" mnemonicParsing="false" onAction="#clickSendMain" text="Відправити ТЕЦ-1" />
-      <Button layoutX="684.0" layoutY="56.0" mnemonicParsing="false" onAction="#clickSendGreen" text="Відправити до НДЕ" />
-      <Button layoutX="570.0" layoutY="102.0" mnemonicParsing="false" onAction="#clickPermMain" prefHeight="25.0" prefWidth="114.0" text="ТЕЦ-1" />
-      <Button layoutX="684.0" layoutY="102.0" mnemonicParsing="false" onAction="#clickPermGreen" prefHeight="25.0" prefWidth="121.0" text="НДЕ" />
+      <Button layoutX="19.0" layoutY="110.0" mnemonicParsing="false" onAction="#clickSend1" prefHeight="33.0" prefWidth="216.0" text="Відправити у вузол 1" />
+      <Button layoutX="19.0" layoutY="150.0" mnemonicParsing="false" onAction="#clickSend2" prefHeight="33.0" prefWidth="216.0" text="Відправити у вузол 2" />
+      <Button layoutX="19.0" layoutY="190.0" mnemonicParsing="false" onAction="#clickSend3" prefHeight="33.0" prefWidth="216.0" text="Відправити у вузол 3" />
+      <Button layoutX="19.0" layoutY="353.0" mnemonicParsing="false" onAction="#clickSend7" prefHeight="33.0" prefWidth="216.0" text="Відправити ТЕЦ-1" />
+      <Button layoutX="19.0" layoutY="230.0" mnemonicParsing="false" onAction="#clickSend4" prefHeight="33.0" prefWidth="216.0" text="Відправити у вузол 4" />
+      <Button layoutX="19.0" layoutY="271.0" mnemonicParsing="false" onAction="#clickSend5" prefHeight="33.0" prefWidth="216.0" text="Відправити у вузол 5" />
+      <Button layoutX="19.0" layoutY="312.0" mnemonicParsing="false" onAction="#clickSend6" prefHeight="33.0" prefWidth="216.0" text="Відправити у вузол 6" />
    </children>
 </AnchorPane>
